@@ -61,7 +61,13 @@ const News = sequelize.define('news', {
 //     //fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
     
 // }
-
+const sleep = ms => {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve();
+        }, ms);
+    })
+}
 (async () => {
   try{
     const instance = await phantom.create(['--load-images=no']);
@@ -70,15 +76,18 @@ const News = sequelize.define('news', {
     await page.on("onResourceRequested", function(requestData) {
         console.info('Requesting', requestData.url)
     });    
-    const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
+    const status = await page.open("http://www.solvay.com/en/asking-more/index.html#/page/6");
     // await page.property('scrollPosition', {
-    //   top: 80
+    //   top: 100
     // })
+    // console.log("start")
+    // await sleep(3000)
+    // console.log("end")
 
     const content = await page.property('content');
     const $ = cheerio.load(content);
     let article = $('.magarticle-content.central-list')
-    page.render('page.jpg')
+    page.render('page.jpg',{format: 'jpeg', quality: '60'})
     for(let i = 0; i < article.length; i++) {
         let news = {}
         console.log(i+'.title->'+article.eq(i).find('.content-title').find('a').html())
