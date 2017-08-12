@@ -1,7 +1,7 @@
 "use strict";
 const fs = require('fs');
 const he = require("he");
-const async = require("async")
+const asyncs = require("async")
 const cheerio = require('cheerio');
 const phantom = require('phantom');
 //const html = fs.readFileSync('./index.htm')
@@ -28,7 +28,7 @@ const News = sequelize.define('news', {
 News.sync();
 
 
-let q = async.queue((news,callback) => {
+let q = asyncs.queue((news,callback) => {
   console.log(news.link);
   (async () => {
 
