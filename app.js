@@ -48,7 +48,7 @@ let q = asyncs.queue((news,callback) => {
 })
 
 q.saturated = function() { 
-    log('all workers to be used'); 
+    console.log('all workers to be used'); 
 }
 
 q.drain = () => {
