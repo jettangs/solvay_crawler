@@ -29,7 +29,7 @@ News.sync();
 
 
 let q = asyncs.queue((news,callback) => {
-  console.log("--->"news.link);
+  console.log("--->"+news.link);
   (async () => {
 
     const instance = await phantom.create(['--load-images=no']);
