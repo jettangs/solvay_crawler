@@ -79,7 +79,7 @@ const News = sequelize.define('news', {
     console.log(article.length)
   for(let i = 0; i < article.length; i++) {
     let news = {}
-    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html().trim())
+    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
     console.log('title->'+news.title)
     news['description'] = he.decode(article.eq(i).find('.abstract').html())
     console.log('description->'+news.description)
