@@ -10,7 +10,7 @@ const Sequelize = require('sequelize')
 
 //const sequelize = new Sequelize(config.db);
 
-let news_list = []
+let news_list = [];
 
 // const News = sequelize.define('news', {
 //     title: { type: Sequelize.STRING, allowNull: false},
