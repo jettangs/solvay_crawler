@@ -23,7 +23,7 @@ const News = sequelize.define('news', {
 },{
   timestamps: false,
   tableName: 'sz_news_gather'
-})
+});
 
 //News.sync();
 
