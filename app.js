@@ -75,8 +75,11 @@ const sleep = ms => {
     await page.property('viewportSize', {width: 1920, height: 1080})
     await page.on("onResourceRequested", function(requestData) {
         console.info('Requesting', requestData.url)
-    });    
-    const status = await page.open("http://www.solvay.com/en/asking-more/index.html#/page/6");
+    });
+    for(let i = 0; i < 7; i++){
+
+      
+    const status = await page.open("http://www.solvay.com/en/asking-more/index.html?page=0");
     // await page.property('scrollPosition', {
     //   top: 100
     // })
@@ -90,7 +93,7 @@ const sleep = ms => {
     const content = await page.property('content');
     const $ = cheerio.load(content);
     let article = $('.magarticle-content.central-list')
-    page.render('page.jpg',{format: 'jpeg', quality: '60'})
+    page.render('page0.jpg',{format: 'jpeg', quality: '60'})
     for(let i = 0; i < article.length; i++) {
         let news = {}
         console.log(i+'.title->'+article.eq(i).find('.content-title').find('a').html())
@@ -116,6 +119,8 @@ const sleep = ms => {
     news_list.forEach(news => {
     //q.push(news, err=>{ if (err) throw err }); 
     })
+    }
+
     //await instance.exit();
   }catch(err){
     console.log(err)
