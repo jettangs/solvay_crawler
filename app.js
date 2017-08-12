@@ -63,29 +63,35 @@ const News = sequelize.define('news', {
 // }
 
 (async () => {
-  const instance = await phantom.create(['--load-images=no']);
-  const page = await instance.createPage();
-  await page.on("onResourceRequested", function(requestData) {
-      console.info('Requesting', requestData.url)
-  });
+  try(){
+    const instance = await phantom.create(['--load-images=no']);
+    const page = await instance.createPage();
+    await page.on("onResourceRequested", function(requestData) {
+        console.info('Requesting', requestData.url)
+    });    
+    const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
+    // await page.property('scrollPosition', {
+    //   top: 8000
+    // })
+    const content = await page.property('content');
+
+  }catch(e){
+    console(e)
+  }
+
   
-  const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
-  // await page.property('scrollPosition', {
-  //   top: 8000
-  // })
-  const content = await page.property('content');
 
   const $ = cheerio.load(content);
   let article = $('article')
   console.log(article.length)
   for(let i = 0; i < article.length; i++) {
     let news = {}
-    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html().trim())
     console.log('title->'+news.title)
     news['description'] = he.decode(article.eq(i).find('.abstract').html())
     console.log('description->'+news.description)
     news['link'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
-    console.log('link'+news.link)
+    console.log('link->'+news.link)
 
     news['author'] = 'solvay'
     console.log('author->'+news.author)
