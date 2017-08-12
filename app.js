@@ -27,20 +27,21 @@ const News = sequelize.define('news', {
 
 News.sync();
 
+const instance = await phantom.create(['--load-images=no']);
+const page = await instance.createPage();
+await page.property('viewportSize', {width: 1920, height: 1080})
+await page.on("onResourceRequested", function(requestData) {
+    console.info('Requesting', requestData.url)
+});
 
 let q = asyncs.queue((news,callback) => {
   (async () => {
     console.log("--->"+news.link);
-    const instance = await phantom.create(['--load-images=no']);
-    const page = await instance.createPage();
-    await page.on("onResourceRequested", function(requestData) {
-        console.info('Requesting', requestData.url)
-    });
     const status = await page.open(news.link);
     const content = await page.property('content');
     const $ = cheerio.load(content)
     news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
-    //News.create(news)
+    News.create(news)
     //await instance.exit();
     callback()
   })()
@@ -53,18 +54,11 @@ q.saturated = function() {
 
 q.drain = () => {
     console.log('all urls have been processed');
-    fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
+    //fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
 }
 
 (async () => {
   try{
-    const instance = await phantom.create(['--load-images=no']);
-    const page = await instance.createPage();
-    await page.property('viewportSize', {width: 1920, height: 1080})
-    await page.on("onResourceRequested", function(requestData) {
-        console.info('Requesting', requestData.url)
-    });
-
     for(let i = 0; i < 7; i++){
         const status = await page.open("http://www.solvay.com/en/asking-more/index.html?page="+i);
         // await page.property('scrollPosition', {
