@@ -33,9 +33,9 @@ let q = asyncs.queue((news,callback) => {
     console.log("--->"+news.link);
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
-    // await page.on("onResourceRequested", function(requestData) {
-    //     console.info('Requesting', requestData.url)
-    // });
+    await page.on("onResourceRequested", function(requestData) {
+        console.info('Requesting', requestData.url)
+    });
     const status = await page.open(news.link);
     const content = await page.property('content');
     const $ = cheerio.load(content)
@@ -61,9 +61,9 @@ q.drain = () => {
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
     await page.property('viewportSize', {width: 1920, height: 1080})
-    // await page.on("onResourceRequested", function(requestData) {
-    //     console.info('Requesting', requestData.url)
-    // });
+    await page.on("onResourceRequested", function(requestData) {
+        console.info('Requesting', requestData.url)
+    });
 
     for(let i = 0; i < 7; i++){
         const status = await page.open("http://www.solvay.com/en/asking-more/index.html?page="+i);
