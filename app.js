@@ -28,39 +28,39 @@ const News = sequelize.define('news', {
 News.sync();
 
 
-let q = asyncs.queue((news,callback) => {
-  (async () => {
-    console.log("--->"+news.link);
-    const instance = await phantom.create(['--load-images=no']);
-    const page = await instance.createPage();
-    await page.on("onResourceRequested", function(requestData) {
-        console.info('Requesting', requestData.url)
-    });
-    console.log("await page.open(news.link)")
-    const status = await page.open(news.link);
-    const content = await page.property('content');
-    console.log(content)
-    console.log("await content")
+// let q = asyncs.queue((news,callback) => {
+//   (async () => {
+//     console.log("--->"+news.link);
+//     const instance = await phantom.create(['--load-images=no']);
+//     const page = await instance.createPage();
+//     await page.on("onResourceRequested", function(requestData) {
+//         console.info('Requesting', requestData.url)
+//     });
+//     console.log("await page.open(news.link)")
+//     const status = await page.open(news.link);
+//     const content = await page.property('content');
+//     console.log(content)
+//     console.log("await content")
 
-    const $ = cheerio.load(content)
-    //console.log("-->"+$(".main-content").html())
-    news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
-    News.create(news)
-    //await instance.exit();
-    callback()
-  })()
+//     const $ = cheerio.load(content)
+//     //console.log("-->"+$(".main-content").html())
+//     news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
+//     News.create(news)
+//     //await instance.exit();
+//     callback()
+//   })()
   
-})
+// })
 
-q.saturated = function() { 
-    log('all workers to be used'); 
-}
+// q.saturated = function() { 
+//     log('all workers to be used'); 
+// }
 
-q.drain = () => {
-    console.log('all urls have been processed');
-    //fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
+// q.drain = () => {
+//     console.log('all urls have been processed');
+//     //fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
     
-}
+// }
 
 (async () => {
   const instance = await phantom.create(['--load-images=no']);
