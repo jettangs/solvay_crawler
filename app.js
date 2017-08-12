@@ -25,42 +25,36 @@ const News = sequelize.define('news', {
   tableName: 'sz_news_gather'
 });
 
-//News.sync();
+News.sync();
 
 
-// let q = asyncs.queue((news,callback) => {
-//   (async () => {
-//     console.log("--->"+news.link);
-//     const instance = await phantom.create(['--load-images=no']);
-//     const page = await instance.createPage();
-//     await page.on("onResourceRequested", function(requestData) {
-//         console.info('Requesting', requestData.url)
-//     });
-//     console.log("await page.open(news.link)")
-//     const status = await page.open(news.link);
-//     const content = await page.property('content');
-//     console.log(content)
-//     console.log("await content")
-
-//     const $ = cheerio.load(content)
-//     //console.log("-->"+$(".main-content").html())
-//     news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
-//     News.create(news)
-//     //await instance.exit();
-//     callback()
-//   })()
+let q = asyncs.queue((news,callback) => {
+  (async () => {
+    console.log("--->"+news.link);
+    const instance = await phantom.create(['--load-images=no']);
+    const page = await instance.createPage();
+    await page.on("onResourceRequested", function(requestData) {
+        console.info('Requesting', requestData.url)
+    });
+    const status = await page.open(news.link);
+    const content = await page.property('content');
+    const $ = cheerio.load(content)
+    news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
+    //News.create(news)
+    //await instance.exit();
+    callback()
+  })()
   
-// })
+})
 
-// q.saturated = function() { 
-//     log('all workers to be used'); 
-// }
+q.saturated = function() { 
+    log('all workers to be used'); 
+}
 
-// q.drain = () => {
-//     console.log('all urls have been processed');
-//     //fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
-    
-// }
+q.drain = () => {
+    console.log('all urls have been processed');
+    fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
+}
 
 (async () => {
   try{
@@ -93,9 +87,12 @@ const News = sequelize.define('news', {
         }
 
     }
-    fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
-
     await instance.exit();
+
+    news_list.forEach(news => {
+        q.push(news, err => { if(err) console.log(err) })
+    })
+    
   }catch(err){
     console.log(err)
   }
