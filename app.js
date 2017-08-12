@@ -35,9 +35,8 @@ let news_list = [];
   });
   
   const status = await page.open("http://www.solvay.com/en/asking-more/index.html#/page/6");
-  page.property('scrollPosition', {
-    top: 100,
-    left: 0
+  await page.property('scrollPosition', {
+    bottom: 0
   })
   const content = await page.property('content');
   const $ = cheerio.load(content);
