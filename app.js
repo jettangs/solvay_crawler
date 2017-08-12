@@ -77,8 +77,8 @@ const News = sequelize.define('news', {
 
     const content = await page.property('content');
     const $ = cheerio.load(content);
-    let article = $('article')
-
+    let article = $('.magarticle-content.central-list.block-right')
+    page.render('page.jpg')
   //for(let i = 0; i < article.length; i++) {
     //let news = {}
     let i = 3
