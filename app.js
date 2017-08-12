@@ -81,35 +81,29 @@ const News = sequelize.define('news', {
     await page.render('image.jpg')
     const $ = cheerio.load(content);
     let article = $('article')
-    console.log(article.length)
-        console.log(article.eq(2).html()+"\n\n\n\n")
-
-    console.log(article.eq(3).html()+"\n\n\n\n")
-    console.log(article.eq(4).html()+"\n\n\n\n")
-    console.log(article.eq(5).html()+"\n\n\n\n")
 
   for(let i = 0; i < article.length; i++) {
-    let news = {}
-        console.log('titles111->'+article.eq(i).find('.content-title').html())
+    //let news = {}
+    console.log(i+'.title->'+article.eq(i).html())
 
-    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
-    console.log('title->'+news.title)
-    news['description'] = he.decode(article.eq(i).find('.abstract').html())
-    console.log('description->'+news.description)
-    news['link'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
-    console.log('link->'+news.link)
+    // news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+    // console.log('title->'+news.title)
+    // news['description'] = he.decode(article.eq(i).find('.abstract').html())
+    // console.log('description->'+news.description)
+    // news['link'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
+    // console.log('link->'+news.link)
 
-    news['author'] = 'solvay'
-    console.log('author->'+news.author)
+    // news['author'] = 'solvay'
+    // console.log('author->'+news.author)
 
-    news['cover'] = he.decode(article.eq(i).find('.main-picture').find('img').attr('src'))
-    console.log('cover->'+news.cover)
+    // news['cover'] = he.decode(article.eq(i).find('.main-picture').find('img').attr('src'))
+    // console.log('cover->'+news.cover)
 
-    news['host'] = 'www.solvay.com'
-    console.log('host->'+news.host)
-    console.log("---------------------")
-    //console.log(JSON.stringify(news))
-    news_list.push(news)
+    // news['host'] = 'www.solvay.com'
+    // console.log('host->'+news.host)
+    // console.log("---------------------")
+    // //console.log(JSON.stringify(news))
+    // news_list.push(news)
   }
   news_list.forEach(news => {
     console.log("push")
