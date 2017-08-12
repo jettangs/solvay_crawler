@@ -81,11 +81,21 @@ const News = sequelize.define('news', {
   for(let i = 0; i < article.length; i++) {
     let news = {}
     news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+    console.log(news.title)
     news['description'] = he.decode(article.eq(i).find('.abstract').html())
+    console.log(news.description)
     news['link'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
+    console.log(news.link)
+
     news['author'] = 'solvay'
+    console.log(news.author)
+
     news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
+    console.log(news.cover)
+
     news['host'] = 'www.solvay.com'
+    console.log(news.host)
+
     //console.log(JSON.stringify(news))
     news_list.push(news)
   }
