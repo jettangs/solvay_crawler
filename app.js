@@ -95,7 +95,7 @@ const News = sequelize.define('news', {
 
     news['host'] = 'www.solvay.com'
     console.log(news.host)
-
+console.log("---------------------")
     //console.log(JSON.stringify(news))
     news_list.push(news)
   }
