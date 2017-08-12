@@ -29,9 +29,8 @@ News.sync();
 
 
 let q = asyncs.queue((news,callback) => {
-  console.log("--->"+news.link);
   (async () => {
-
+    console.log("--->"+news.link);
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
     await page.on("onResourceRequested", function(requestData) {
@@ -91,6 +90,7 @@ q.drain = () => {
     news_list.push(news)
   }
   news_list.forEach(news => {
+    console.log("push")
     q.push(news, err=>{ if (err) throw err }); 
   })
 })()
