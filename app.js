@@ -25,7 +25,7 @@ const News = sequelize.define('news', {
   tableName: 'sz_news_gather'
 })
 
-News.sync();
+//News.sync();
 
 
 // let q = asyncs.queue((news,callback) => {
