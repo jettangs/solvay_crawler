@@ -105,14 +105,15 @@ const News = sequelize.define('news', {
     // //console.log(JSON.stringify(news))
     // news_list.push(news)
 //  }
-  news_list.forEach(news => {
-    console.log("push")
-    //q.push(news, err=>{ if (err) throw err }); 
-  })
+  // news_list.forEach(news => {
+  //   console.log("push")
+  //   //q.push(news, err=>{ if (err) throw err }); 
+  // })
+    await instance.exit();
   }catch(err){
     console.log(err)
   }
-  await instance.exit();
+  
 })()
 
 
