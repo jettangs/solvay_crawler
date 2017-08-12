@@ -76,7 +76,9 @@ const News = sequelize.define('news', {
     await page.property('scrollPosition', {
       top: 8000
     })
+
     const content = await page.property('content');
+    await page.render('image.jpg')
     const $ = cheerio.load(content);
     let article = $('article')
     console.log(article.length)
