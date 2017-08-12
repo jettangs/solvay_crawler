@@ -36,19 +36,19 @@ let news_list = [];
   
   const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
   const content = await page.property('content');
-  //const $ = cheerio.load(content);
-  //let article = $('article')
-  // for(let i = 0; i < 1; i++) {
-  //   let news = {}
-  //   news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
-  //   news['description'] = he.decode(article.eq(i).find('.abstract').html())
-  //   news['link'] = he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
-  //   news['author'] = 'solvay'
-  //   news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
-  //   news['host'] = 'www.solvay.com'
-  //   news_list.push(news)
-  //   JSON.stringify(news)
-  // }
+  const $ = cheerio.load(content);
+  let article = $('article')
+  for(let i = 0; i < 1; i++) {
+    let news = {}
+    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+    news['description'] = he.decode(article.eq(i).find('.abstract').html())
+    news['link'] = he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
+    news['author'] = 'solvay'
+    news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
+    news['host'] = 'www.solvay.com'
+    news_list.push(news)
+    JSON.stringify(news)
+  }
   await instance.exit();
   // news_list.forEach(news => {
   //   q.push(news, err=>{ if (err) throw err }); 
