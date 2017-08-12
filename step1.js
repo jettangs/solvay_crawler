@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 const phantom = require('phantom');
 //const html = fs.readFileSync('./index.htm')
 const Sequelize = require('sequelize')
-const config = require('./config')
+//const config = require('./config')
 
 //const sequelize = new Sequelize(config.db);
 
@@ -36,56 +36,55 @@ let news_list = []
   
   const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
   const content = await page.property('content');
-  const $ = cheerio.load(content);
-  let article = $('article')
-  //console.log(article.html())
-  for(let i = 0; i < 1; i++) {
-    let news = {}
-    news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
-    news['description'] = he.decode(article.eq(i).find('.abstract').html())
-    news['link'] = he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
-    news['author'] = 'solvay'
-    news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
-    news['host'] = 'www.solvay.com'
-    news_list.push(news)
-    JSON.stringify(news)
-  }
+  //const $ = cheerio.load(content);
+  //let article = $('article')
+  // for(let i = 0; i < 1; i++) {
+  //   let news = {}
+  //   news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+  //   news['description'] = he.decode(article.eq(i).find('.abstract').html())
+  //   news['link'] = he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
+  //   news['author'] = 'solvay'
+  //   news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
+  //   news['host'] = 'www.solvay.com'
+  //   news_list.push(news)
+  //   JSON.stringify(news)
+  // }
   //await instance.exit();
-  news_list.forEach(news => {
-    q.push(news, err=>{ if (err) throw err }); 
-  })
+  // news_list.forEach(news => {
+  //   q.push(news, err=>{ if (err) throw err }); 
+  // })
 })()
 
-let q = asyncs.queue((news,callback) => {
-  (async () => {
+// let q = asyncs.queue((news,callback) => {
+//   (async () => {
 
-    const instance = await phantom.create(['--load-images=no']);
-    const page = await instance.createPage();
-    await page.on("onResourceRequested", function(requestData) {
-        console.info('Requesting', requestData.url)
-    });
-    console.log("await page.open(news.link)")
-    const status = await page.open(news.link);
-    const content = await page.property('content');
-    console.log("await content")
+//     const instance = await phantom.create(['--load-images=no']);
+//     const page = await instance.createPage();
+//     await page.on("onResourceRequested", function(requestData) {
+//         console.info('Requesting', requestData.url)
+//     });
+//     console.log("await page.open(news.link)")
+//     const status = await page.open(news.link);
+//     const content = await page.property('content');
+//     console.log("await content")
 
-    console.log(content)
-    const $ = cheerio.load(content)
-    console.log("-->"+ content)
-    //console.log("-->"+$(".main-content").html())
-    news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
-    //News.create(news)
-    await instance.exit();
-    callback()
-  })()
+//     console.log(content)
+//     const $ = cheerio.load(content)
+//     console.log("-->"+ content)
+//     //console.log("-->"+$(".main-content").html())
+//     news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
+//     //News.create(news)
+//     await instance.exit();
+//     callback()
+//   })()
   
-})
+// })
 
-q.drain = () => {
-    console.log('all urls have been processed');
-    fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
-    //sequelize.close()
-}
+// q.drain = () => {
+//     console.log('all urls have been processed');
+//     fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
+//     //sequelize.close()
+// }
 
 
 
