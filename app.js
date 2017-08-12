@@ -72,13 +72,13 @@ const News = sequelize.define('news', {
     });    
     const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
     // await page.property('scrollPosition', {
-    //   top: 8000
+    //   top: 80
     // })
 
     const content = await page.property('content');
     const $ = cheerio.load(content);
     let article = $('.magarticle-content.central-list')
-    //page.render('page.jpg')
+    page.render('page.jpg')
     for(let i = 0; i < article.length; i++) {
         let news = {}
         console.log(i+'.title->'+article.eq(i).find('.content-title').find('a').html())
