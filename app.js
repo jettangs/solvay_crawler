@@ -78,13 +78,11 @@ const News = sequelize.define('news', {
     const content = await page.property('content');
     const $ = cheerio.load(content);
     let article = $('.magarticle-content.central-list.block-right')
-    page.render('page.jpg')
-  //for(let i = 0; i < article.length; i++) {
-    //let news = {}
-    let i = 3
-    console.log(i+'.title->'+article.eq(i).html())
-
-    // news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+    //page.render('page.jpg')
+    for(let i = 0; i < article.length; i++) {
+        let news = {}
+        console.log(i+'.title->'+article.eq(i).find('.content-title').find('a').html())
+        //news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
     // console.log('title->'+news.title)
     // news['description'] = he.decode(article.eq(i).find('.abstract').html())
     // console.log('description->'+news.description)
@@ -102,11 +100,10 @@ const News = sequelize.define('news', {
     // console.log("---------------------")
     // //console.log(JSON.stringify(news))
     // news_list.push(news)
-//  }
-  // news_list.forEach(news => {
-  //   console.log("push")
-  //   //q.push(news, err=>{ if (err) throw err }); 
-  // })
+    }
+    news_list.forEach(news => {
+    //q.push(news, err=>{ if (err) throw err }); 
+    })
     await instance.exit();
   }catch(err){
     console.log(err)
