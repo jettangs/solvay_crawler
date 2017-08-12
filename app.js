@@ -63,7 +63,6 @@ const News = sequelize.define('news', {
 // }
 
 (async () => {
-  try{
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
     await page.on("onResourceRequested", function(requestData) {
@@ -74,13 +73,6 @@ const News = sequelize.define('news', {
     //   top: 8000
     // })
     const content = await page.property('content');
-
-  }catch(e){
-    console(e)
-  }
-
-  
-
   const $ = cheerio.load(content);
   let article = $('article')
   console.log(article.length)
@@ -109,7 +101,9 @@ console.log("---------------------")
     console.log("push")
     //q.push(news, err=>{ if (err) throw err }); 
   })
-})()
+}.catch(e){
+    console(e)
+  })()
 
 
 
