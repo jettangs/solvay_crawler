@@ -66,6 +66,9 @@ const News = sequelize.define('news', {
   try{
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
+    await page.property('viewportSize', {
+      width: 1920, height: 1080
+    })
     await page.on("onResourceRequested", function(requestData) {
         console.info('Requesting', requestData.url)
     });    
