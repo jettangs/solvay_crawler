@@ -90,7 +90,7 @@ const News = sequelize.define('news', {
     news['author'] = 'solvay'
     console.log(news.author)
 
-    news['cover'] = he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
+    news['cover'] = he.decode(article.eq(i).find('.main-picture').find('img').attr('src'))
     console.log(news.cover)
 
     news['host'] = 'www.solvay.com'
