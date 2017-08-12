@@ -63,7 +63,7 @@ const News = sequelize.define('news', {
 // }
 
 (async () => {
-  try(){
+  try{
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
     await page.on("onResourceRequested", function(requestData) {
