@@ -62,8 +62,8 @@ let q = asyncs.queue((news,callback) => {
     const status = await page.open(news.link);
     const content = await page.property('content');
     const $ = cheerio.load(content)
-    console.log(content)
-    console.log("-->"+$(".main-content").html())
+    console.log("-->"+ content)
+    //console.log("-->"+$(".main-content").html())
     news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
     //News.create(news)
     await instance.exit();
