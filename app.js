@@ -66,16 +66,14 @@ const News = sequelize.define('news', {
   try{
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
-    await page.property('viewportSize', {
-      width: 1920, height: 1080
-    })
+    await page.property('viewportSize', {width: 800, height: 600})
     await page.on("onResourceRequested", function(requestData) {
         console.info('Requesting', requestData.url)
     });    
     const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
-    await page.property('scrollPosition', {
-      top: 8000
-    })
+    // await page.property('scrollPosition', {
+    //   top: 8000
+    // })
 
     const content = await page.property('content');
     const $ = cheerio.load(content);
