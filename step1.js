@@ -34,7 +34,7 @@ let news_list = []
       console.info('Requesting', requestData.url)
   });
   
-  const status = await page.open("http://www.solvay.com/en/asking-more/index.html#/page/6");
+  const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
   const content = await page.property('content');
   const $ = cheerio.load(content);
   let article = $('article')
@@ -51,6 +51,9 @@ let news_list = []
     JSON.stringify(news)
   }
   //await instance.exit();
+  news_list.forEach(news => {
+    q.push(news, err=>{ if (err) throw err }); 
+  })
 })()
 
 let q = asyncs.queue((news,callback) => {
@@ -61,8 +64,11 @@ let q = asyncs.queue((news,callback) => {
     await page.on("onResourceRequested", function(requestData) {
         console.info('Requesting', requestData.url)
     });
+    console.log("await page.open(news.link)")
     const status = await page.open(news.link);
     const content = await page.property('content');
+    console.log("await content")
+
     console.log(content)
     const $ = cheerio.load(content)
     console.log("-->"+ content)
@@ -81,9 +87,7 @@ q.drain = () => {
     //sequelize.close()
 }
 
-news_list.forEach(news => {
-  q.push(news, err=>{ if (err) throw err }); 
-})
+
 
 
 
