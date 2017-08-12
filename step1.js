@@ -49,7 +49,7 @@ let news_list = []
   //   news_list.push(news)
   //   JSON.stringify(news)
   // }
-  //await instance.exit();
+  await instance.exit();
   // news_list.forEach(news => {
   //   q.push(news, err=>{ if (err) throw err }); 
   // })
