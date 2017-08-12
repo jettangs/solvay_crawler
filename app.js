@@ -91,7 +91,7 @@ q.drain = () => {
   }
   news_list.forEach(news => {
     console.log("push")
-    q.push(news, err=>{ if (err) throw err }); 
+    //q.push(news, err=>{ if (err) throw err }); 
   })
 })()
 
