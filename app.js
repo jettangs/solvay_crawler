@@ -83,6 +83,9 @@ const sleep = ms => {
     // console.log("start")
     // await sleep(3000)
     // console.log("end")
+    await page.property('onLoadFinished', function(status){
+        console.log('Status: ' + status);
+    })
 
     const content = await page.property('content');
     const $ = cheerio.load(content);
@@ -113,7 +116,7 @@ const sleep = ms => {
     news_list.forEach(news => {
     //q.push(news, err=>{ if (err) throw err }); 
     })
-    await instance.exit();
+    //await instance.exit();
   }catch(err){
     console.log(err)
   }
