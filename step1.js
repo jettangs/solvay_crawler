@@ -38,8 +38,8 @@ let news_list = []
   const content = await page.property('content');
   const $ = cheerio.load(content);
   let article = $('article')
-  console.log(article.html())
-  for(let i = 0; i < article.length; i++) {
+  //console.log(article.html())
+  for(let i = 0; i < 1; i++) {
     let news = {}
     news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
     news['description'] = he.decode(article.eq(i).find('.abstract').html())
@@ -62,6 +62,8 @@ let q = asyncs.queue((news,callback) => {
     const status = await page.open(news.link);
     const content = await page.property('content');
     const $ = cheerio.load(content)
+    console.log(content)
+    console.log("-->"+$(".main-content").html())
     news['content'] = he.decode($(".main-content").html().replace(/\n/g, "").replace(/\\/g, ""))
     //News.create(news)
     await instance.exit();
