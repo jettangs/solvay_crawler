@@ -78,13 +78,13 @@ const News = sequelize.define('news', {
     })
 
     const content = await page.property('content');
-    await page.render('image.jpg')
     const $ = cheerio.load(content);
     let article = $('article')
 
-  for(let i = 0; i < article.length; i++) {
+  //for(let i = 0; i < article.length; i++) {
     //let news = {}
-    console.log(i+'.title->'+article.eq(i).find('.content-title').html())
+    let i = 3
+    console.log(i+'.title->'+article.eq(i).html())
 
     // news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
     // console.log('title->'+news.title)
@@ -104,7 +104,7 @@ const News = sequelize.define('news', {
     // console.log("---------------------")
     // //console.log(JSON.stringify(news))
     // news_list.push(news)
-  }
+//  }
   news_list.forEach(news => {
     console.log("push")
     //q.push(news, err=>{ if (err) throw err }); 
