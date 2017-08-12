@@ -29,7 +29,7 @@ News.sync();
 
 
 let q = asyncs.queue((news,callback) => {
-  console.log(news.link);
+  console.log("--->"news.link);
   (async () => {
 
     const instance = await phantom.create(['--load-images=no']);
@@ -87,7 +87,7 @@ q.drain = () => {
     news['author'] = 'solvay'
     news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
     news['host'] = 'www.solvay.com'
-    console.log(JSON.stringify(news))
+    //console.log(JSON.stringify(news))
     news_list.push(news)
   }
   news_list.forEach(news => {
