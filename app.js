@@ -51,7 +51,7 @@ let q = async.queue((news,callback) => {
     callback()
   })()
   
-},10)
+})
 
 q.saturated = function() { 
     log('all workers to be used'); 
@@ -87,6 +87,7 @@ q.drain = () => {
     news['author'] = 'solvay'
     news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
     news['host'] = 'www.solvay.com'
+    console.log(JSON.stringify(news))
     news_list.push(news)
   }
   news_list.forEach(news => {
