@@ -61,13 +61,7 @@ const News = sequelize.define('news', {
 //     //fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
     
 // }
-const sleep = ms => {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            resolve();
-        }, ms);
-    })
-}
+
 (async () => {
   try{
     const instance = await phantom.create(['--load-images=no']);
@@ -76,52 +70,32 @@ const sleep = ms => {
     await page.on("onResourceRequested", function(requestData) {
         console.info('Requesting', requestData.url)
     });
+
     for(let i = 0; i < 7; i++){
-
-      
-    const status = await page.open("http://www.solvay.com/en/asking-more/index.html?page=0");
-    // await page.property('scrollPosition', {
-    //   top: 100
-    // })
-    // console.log("start")
-    // await sleep(3000)
-    // console.log("end")
-    await page.property('onLoadFinished', function(status){
+        const status = await page.open("http://www.solvay.com/en/asking-more/index.html?page="+i);
+        // await page.property('scrollPosition', {
+        //   top: 100
+        // })
         console.log('Status: ' + status);
-    })
+        const content = await page.property('content');
+        const $ = cheerio.load(content);
+        let article = $('.magarticle-content.central-list')
+        //page.render('page'+i+'.jpg',{format: 'jpeg', quality: '60'})
+        for(let i = 0; i < article.length; i++) {
+            let news = {}
+            news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
+            news['description'] = he.decode(article.eq(i).find('.abstract').html())
+            news['link'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
+            news['author'] = 'solvay'
+            news['cover'] = he.decode(article.eq(i).find('.main-picture').find('img').attr('src'))
+            news['host'] = 'www.solvay.com'
+            news_list.push(news)
+        }
 
-    const content = await page.property('content');
-    const $ = cheerio.load(content);
-    let article = $('.magarticle-content.central-list')
-    page.render('page0.jpg',{format: 'jpeg', quality: '60'})
-    for(let i = 0; i < article.length; i++) {
-        let news = {}
-        console.log(i+'.title->'+article.eq(i).find('.content-title').find('a').html())
-        //news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
-    // console.log('title->'+news.title)
-    // news['description'] = he.decode(article.eq(i).find('.abstract').html())
-    // console.log('description->'+news.description)
-    // news['link'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.content-title').find('a').attr('href'))
-    // console.log('link->'+news.link)
-
-    // news['author'] = 'solvay'
-    // console.log('author->'+news.author)
-
-    // news['cover'] = he.decode(article.eq(i).find('.main-picture').find('img').attr('src'))
-    // console.log('cover->'+news.cover)
-
-    // news['host'] = 'www.solvay.com'
-    // console.log('host->'+news.host)
-    // console.log("---------------------")
-    // //console.log(JSON.stringify(news))
-    // news_list.push(news)
     }
-    news_list.forEach(news => {
-    //q.push(news, err=>{ if (err) throw err }); 
-    })
-    }
+    fs.writeFile('news.txt', JSON.stringify(news_list), function(err){ if (err) throw err });
 
-    //await instance.exit();
+    await instance.exit();
   }catch(err){
     console.log(err)
   }
