@@ -82,6 +82,12 @@ const News = sequelize.define('news', {
     const $ = cheerio.load(content);
     let article = $('article')
     console.log(article.length)
+        console.log(article.eq(2).html()+"\n\n\n\n")
+
+    console.log(article.eq(3).html()+"\n\n\n\n")
+    console.log(article.eq(4).html()+"\n\n\n\n")
+    console.log(article.eq(5).html()+"\n\n\n\n")
+
   for(let i = 0; i < article.length; i++) {
     let news = {}
         console.log('titles111->'+article.eq(i).find('.content-title').html())
