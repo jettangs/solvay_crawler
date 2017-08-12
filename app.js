@@ -34,7 +34,7 @@ let news_list = [];
       console.info('Requesting', requestData.url)
   });
   
-  const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
+  const status = await page.open("http://www.solvay.com/en/asking-more/index.html#/page/6");
   const content = await page.property('content');
   const $ = cheerio.load(content);
   let article = $('article')
