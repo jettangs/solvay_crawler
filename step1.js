@@ -48,12 +48,14 @@ let news_list = []
     news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
     news['host'] = 'www.solvay.com'
     news_list.push(news)
+    JSON.stringify(news)
   }
-  await instance.exit();
+  //await instance.exit();
 })()
 
 let q = asyncs.queue((news,callback) => {
   (async () => {
+
     const instance = await phantom.create(['--load-images=no']);
     const page = await instance.createPage();
     await page.on("onResourceRequested", function(requestData) {
@@ -61,6 +63,7 @@ let q = asyncs.queue((news,callback) => {
     });
     const status = await page.open(news.link);
     const content = await page.property('content');
+    console.log(content)
     const $ = cheerio.load(content)
     console.log("-->"+ content)
     //console.log("-->"+$(".main-content").html())
