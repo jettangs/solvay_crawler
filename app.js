@@ -70,9 +70,9 @@ const News = sequelize.define('news', {
         console.info('Requesting', requestData.url)
     });    
     const status = await page.open("http://www.solvay.com/en/asking-more/index.html");
-    // await page.property('scrollPosition', {
-    //   top: 8000
-    // })
+    await page.property('scrollPosition', {
+      top: 8000
+    })
     const content = await page.property('content');
     const $ = cheerio.load(content);
     let article = $('article')
