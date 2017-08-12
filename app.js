@@ -38,6 +38,7 @@ let news_list = [];
   const content = await page.property('content');
   const $ = cheerio.load(content);
   let article = $('article')
+  console.log(article.length)
   for(let i = 0; i < 1; i++) {
     let news = {}
     news['title'] = he.decode(article.eq(i).find('.content-title').find('a').html())
@@ -47,7 +48,7 @@ let news_list = [];
     news['cover'] = 'http://www.solvay.com'+he.decode(article.eq(i).find('.main-picture').find('img').attr('src').substr(1))
     news['host'] = 'www.solvay.com'
     news_list.push(news)
-    JSON.stringify(news)
+    console.log(JSON.stringify(news))
   }
   await instance.exit();
   // news_list.forEach(news => {
